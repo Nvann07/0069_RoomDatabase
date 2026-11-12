@@ -15,7 +15,16 @@ import androidx.room.RoomDatabase
          @Volatile
          private var instance: DatabaseSiswa? = null
 
-         )
+         fun getDatabase(context: Context): DatabaseSiswa {
+             return (instance?: synchronized(this) {
+                 Room.databaseBuilder(
+                     context,
+                     DatabaseSiswa::class.java,
+                     "siswa_database"
+                 ).build()
+                     .also { instance = it }
+
+             })
 
              }
          }

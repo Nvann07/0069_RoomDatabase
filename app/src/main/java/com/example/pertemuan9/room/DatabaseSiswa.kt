@@ -13,7 +13,9 @@ import androidx.room.RoomDatabase
 
      companion object {
          @Volatile
+         private var instance: DatabaseSiswa? = null
 
+         )
 
              }
          }

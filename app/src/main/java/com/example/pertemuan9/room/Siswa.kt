@@ -8,5 +8,6 @@ import androidx.room.PrimaryKey
 class Siswa {
     @PrimaryKey(autoGenerate = true)
     val id : int = 0,
+    val name : String,
 
 }

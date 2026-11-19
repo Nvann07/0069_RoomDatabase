@@ -7,6 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.pertemuan9.repositori.RepositoriSiswa
 import com.example.pertemuan9.view.route.DestinasiEditSiswa
 import kotlinx.coroutines.launch
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+
 
 class EditViewModel (
     savedStateHandle: SavedStateHandle,

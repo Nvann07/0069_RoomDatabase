@@ -1,42 +1,47 @@
-package com.example.pertemuan9.viewmodel
+package com.example.myapplication.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.example.pertemuan9.repositori.RepositoriSiswa
-import com.example.pertemuan9.view.route.DestinasiEditSiswa
-import kotlinx.coroutines.flow.SharingStarted
+import com.example.myapplication.repositori.RepositoriSiswa
+import com.example.myapplication.uicontroller.route.DestinasiDetailSiswa
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.SharingStarted
 
-class DetailViewModel (
+class DetailViewModel(
     savedStateHandle: SavedStateHandle,
     private val repositoriSiswa: RepositoriSiswa
-): ViewModel() {
+) : ViewModel() {
 
-    private val idSiswa: Int = checkNotNull(savedStateHandle[DestinasiEditSiswa.itemIdArg])
+    private val idSiswa: Int =
+        checkNotNull(savedStateHandle[DestinasiDetailSiswa.itemIdArg])
 
-    val uiDetailSiswa: StateFlow<DetailSiswaUiState> =
+    val uiDetailState: StateFlow<DetailSiswaUiState> =
         repositoriSiswa.getSiswaStream(idSiswa)
             .filterNotNull()
-            .map {
-                DetailSiswaUiState(detailSiswa = it.toDetailSiswa())
-            }.stateIn(
+            .map { siswa ->
+                DetailSiswaUiState(detailSiswa = siswa.toDetailSiswa())
+            }
+            .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
                 initialValue = DetailSiswaUiState()
             )
 
     suspend fun deleteSiswa() {
-        repositoriSiswa.deleteSiswa(uiStateSiswa.detailSiswa.toSiswa())
+        repositoriSiswa.deleteSiswa(
+            uiDetailState.value.detailSiswa.toSiswa()
+        )
     }
 
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L
     }
-    }
+}
 
 data class DetailSiswaUiState(
-    val detailSiswa: DetailSiswa = DetailSiswa(),
-    val isEntryValid: Boolean = false
-)
+    val detailSiswa: DetailSiswa = DetailSiswa()
 )

@@ -11,6 +11,8 @@ interface RepositoriSiswa {
 
     fun getAllSiswaStream(id: Int): Flow<Siswa?>
 
+    suspend fun deleteSiswa(siswa: Siswa)
+
 
 }
 

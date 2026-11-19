@@ -8,3 +8,21 @@ import com.example.pertemuan9.repositori.RepositoriSiswa
 import com.example.pertemuan9.view.route.DestinasiEditSiswa
 import kotlinx.coroutines.launch
 
+class EditViewModel (
+    savedStateHandle: SavedStateHandle,
+    private val repositoriSiswa: RepositoriSiswa): ViewModel() {
+
+    var uiStateSiswa by mutableStateOf(UIStateSiswa())
+    private set
+
+
+    private val idSiswa: Int = checkNotNull(savedStateHandle[DestinasiEditSiswa.itemIdArg])
+    init{
+        viewModelScope.launch {
+            uiStateSiswa = repositoriSiswa.getSiswaStream(idSiswa)
+                .filterNotNull()
+                .first()
+                .toUIStateSiswa()
+        }
+        }
+    }

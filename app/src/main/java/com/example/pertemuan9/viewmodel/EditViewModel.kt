@@ -13,16 +13,22 @@ class EditViewModel (
     private val repositoriSiswa: RepositoriSiswa): ViewModel() {
 
     var uiStateSiswa by mutableStateOf(UIStateSiswa())
-    private set
+        private set
 
 
     private val idSiswa: Int = checkNotNull(savedStateHandle[DestinasiEditSiswa.itemIdArg])
-    init{
+
+    init {
         viewModelScope.launch {
             uiStateSiswa = repositoriSiswa.getSiswaStream(idSiswa)
                 .filterNotNull()
                 .first()
                 .toUIStateSiswa()
         }
-        }
     }
+
+    fun updateUiState(newUiState: UIStateSiswa) {
+        uiStateSisw =
+            UIStateSiswa(detailSiswa = detailSiswa, isEntryValid = validasiInput)
+    }
+}

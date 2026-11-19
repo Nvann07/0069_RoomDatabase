@@ -9,8 +9,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface SiswaDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert (siswa: Siswa)
+    suspend fun insert(siswa: Siswa)
 
-    @Query("SELECT * from tblSiswa ORDER BY name ASC")
+    @Query("SELECT * FROM tblSiswa ORDER BY nama ASC")
     fun getAllSiswa(): Flow<List<Siswa>>
 }
+
+@Delete
+suspend fun delete(siswa: Siswa)
+
+

@@ -3,12 +3,11 @@ package com.example.pertemuan9.room
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-
 @Entity(tableName = "tblSiswa")
-class Siswa {
+data class Siswa(
     @PrimaryKey(autoGenerate = true)
-    val id : int = 0,
-    val name : String,
-    val alamat : String,
-    val telepon : String
-}
+    val id: Int = 0,
+    val nama: String,
+    val alamat: String,
+    val telpon: String
+)
